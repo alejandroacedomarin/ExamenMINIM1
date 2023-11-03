@@ -1,28 +1,26 @@
 package edu.upc.eetac.dsa.models;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.HashMap;
 
-public class User {
-    private String IdUser;
-    int Jugando; //0 -> no, 1 -> si
-    HashMap<String, Partida> partidasJugadas; //string = idPartida; Partida = partida.
+public class Usuario {
+    private String IdUsuario;
+    int Jugando; //0=no, 1=si
+    HashMap<String, Partida> partidasJugadas;
 
-    public User(){}
+    public Usuario(){}
 
-    public User(String Id){
-        this.IdUser = Id;
+    public Usuario(String Id){
+        this.IdUsuario = Id;
         this.Jugando = 0;
         this.setPartidasJugadas();
     }
 
-    public String getIdUser() {
-        return this.IdUser;
+    public String getIdUsuario() {
+        return this.IdUsuario;
     }
 
-    public void setIdUser(String idUser) {
-        this.IdUser = idUser;
+    public void setIdUsuario(String idUsuario) {
+        this.IdUsuario = idUsuario;
     }
 
     public int getJugando() {

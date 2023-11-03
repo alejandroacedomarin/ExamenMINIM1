@@ -41,7 +41,7 @@ public class Partida {
         this.IdJugador = idJugador;
     }
 
-    public int getPuntos() {
+    public int getPunt() {
         return this.puntos;
     }
 
@@ -61,9 +61,6 @@ public class Partida {
         return this.nivelActual;
     }
 
-    public void sumNivelActual(Integer x) {
-        this.nivelActual = this.nivelActual + x;
-    }
 
     public void setNivelActual(int nivelActual) {
         this.nivelActual = nivelActual;

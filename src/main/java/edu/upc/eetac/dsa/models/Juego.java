@@ -1,24 +1,24 @@
 package edu.upc.eetac.dsa.models;
 
-public class Game {
-    private String IdGame;
+public class Juego {
+    private String IdJuego;
     private String descripcion;
     private int niveles;
 
-    public Game(){}
+    public Juego(){}
 
-    public Game(String idGame, String descripcion, int niveles) {
-        this.IdGame = idGame;
+    public Juego(String idJuego, String descripcion, int niveles) {
+        this.IdJuego = idJuego;
         this.descripcion = descripcion;
         this.niveles = niveles;
     }
 
-    public String getIdGame() {
-        return this.IdGame;
+    public String getIdJuego() {
+        return this.IdJuego;
     }
 
-    public void setIdGame(String idGame) {
-        this.IdGame = idGame;
+    public void setIdJuego(String idJuego) {
+        this.IdJuego = idJuego;
     }
 
     public String getDescripcion() {
