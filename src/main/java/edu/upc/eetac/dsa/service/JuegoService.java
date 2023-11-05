@@ -40,58 +40,86 @@ public class JuegoService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addJuego(Juego juego) {
 
+
         if (juego.getIdJuego()==null || juego.getDescripcion()==null)  return Response.status(500).entity(juego).build();
         this.jm.addJuego(juego.getIdJuego(), juego.getDescripcion(), juego.getNiveles());
         return Response.status(201).entity(juego).build();
     }
+
     @POST
     @ApiOperation(value = "nueva partida", notes = "Partida Nueva")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response= Partida.class),
             @ApiResponse(code = 500, message = "Validation Error")
     })
-    @Path("/")
+    @Path("/{idj}/{idu}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addPartida(Partida part) {
+    public Response addPartida(@PathParam("idj") String idj,@PathParam("idu") String idu) {
+        Usuario u = this.jm.getUsuario(idu);
+        Juego j = this.jm.getJuego(idj);
+        int jugando = this.jm.getJugando(idu);
+        if (u==null || j==null || jugando == 1)  return Response.status(500).build();
+        this.jm.addPartida(idj, idu);
+        u.setJugando(1);
+        return Response.status(201).build();
 
-        if (part.getIdPartida()==null || part.getIdJuego()==null || part.getIdJugador()==null)  return Response.status(500).entity(part).build();
-        this.jm.addPartida(part.getIdJuego(), part.getIdJugador());
-        return Response.status(201).entity(part).build();
     }
 
     @GET
     @ApiOperation(value = "nivel actual", notes = "Nivel de jugador")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Partida.class),
+            @ApiResponse(code = 500, message = "Validation Error")
     })
     @Path("/jugador/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getNivel(String id) {
-        return Response.status(201).entity(getNivel(id)).build();
+    public Response getNivel(@PathParam("id") String id) {
+        Usuario u = this.jm.getUsuario(id);
+        int jugando = this.jm.getJugando(id);
+        if (u==null || jugando == 0)  return Response.status(500).build();
+        return Response.status(201).entity(this.jm.getNivel(id)).build();
     }
-
-
 
     @GET
     @ApiOperation(value = "puntuacion actual", notes = "Puntuacion de jugador")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Partida.class),
+            @ApiResponse(code = 500, message = "Validation Error")
     })
-    @Path("/jugador/{id}")
+    @Path("/partida/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPunt(String id) {
-        return Response.status(201).entity(id).build();
+    public Response getPunt(@PathParam("id") String id) {
+        Usuario u = this.jm.getUsuario(id);
+        int jugando = this.jm.getJugando(id);
+        if (u==null || jugando == 0)  return Response.status(500).build();
+        return Response.status(201).entity(this.jm.getPunt(id)).build();
     }
 
-    @GET
-    @ApiOperation(value = "jugadores ordenados", notes = "Todos ordenados")
+
+    @DELETE
+    @ApiOperation(value = "acabar partida", notes = "Finalizar partida")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Usuario.class),
+            @ApiResponse(code = 201, message = "Successful"),
+            @ApiResponse(code = 404, message = "No existe la partida")
     })
-    @Path("/jugadorsort")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getJugadoresSort(Juego juego) {
-        return Response.status(201).entity(juego).build(); }}
+    @Path("/{id}")
+    public Response endPartida(@PathParam("id") String id) {
+        Usuario u = this.jm.endPartida(id);
+        if (u == null) return Response.status(404).build();
+        else return Response.status(201).build();
+    }
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 
 
